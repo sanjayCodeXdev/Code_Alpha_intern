@@ -33,9 +33,23 @@
 
     <!-- Language Selector Bar -->
     <div class="lang-bar glass-card">
+      <!-- Source Language Custom Dropdown -->
       <div class="lang-select-wrap">
-        <label for="sourceLang">From</label>
-        <select id="sourceLang" class="lang-select"></select>
+        <label>From</label>
+        <div class="cs-dropdown" id="sourceDropdown" data-value="auto">
+          <button class="cs-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="cs-selected">Detect Language</span>
+            <svg class="cs-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="cs-panel" role="listbox">
+            <div class="cs-search-wrap">
+              <svg class="cs-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input class="cs-search" type="text" placeholder="Search language..." aria-label="Search source language" autocomplete="off" />
+            </div>
+            <ul class="cs-list"></ul>
+            <p class="cs-no-results">No languages found</p>
+          </div>
+        </div>
       </div>
 
       <button class="swap-btn" id="swapBtn" title="Swap Languages" aria-label="Swap Languages">
@@ -45,9 +59,23 @@
         </svg>
       </button>
 
+      <!-- Target Language Custom Dropdown -->
       <div class="lang-select-wrap">
-        <label for="targetLang">To</label>
-        <select id="targetLang" class="lang-select"></select>
+        <label>To</label>
+        <div class="cs-dropdown" id="targetDropdown" data-value="en">
+          <button class="cs-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="cs-selected">English</span>
+            <svg class="cs-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="cs-panel" role="listbox">
+            <div class="cs-search-wrap">
+              <svg class="cs-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input class="cs-search" type="text" placeholder="Search language..." aria-label="Search target language" autocomplete="off" />
+            </div>
+            <ul class="cs-list"></ul>
+            <p class="cs-no-results">No languages found</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -131,12 +159,12 @@
     <!-- Error Toast -->
     <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
 
-    <!-- Feature Pills -->
+    <!-- Feature Pills (Functional Buttons) -->
     <div class="feature-pills">
-      <span class="pill">🚀 100+ Languages</span>
-      <span class="pill">🔊 Text-to-Speech</span>
-      <span class="pill">📋 One-Click Copy</span>
-      <span class="pill">⚡ Instant Translation</span>
+      <button class="pill" id="pillLangs"   title="Browse all supported languages">🚀 100+ Languages</button>
+      <button class="pill" id="pillTts"    title="Listen to the translation">🔊 Text-to-Speech</button>
+      <button class="pill" id="pillCopy"   title="Copy translation to clipboard">📋 One-Click Copy</button>
+      <button class="pill" id="pillTranslate" title="Translate now">⚡ Instant Translation</button>
     </div>
 
   </main>

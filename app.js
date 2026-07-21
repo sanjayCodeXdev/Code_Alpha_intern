@@ -3,11 +3,13 @@
  * CodeAlpha AI Internship · Task 1
  *
  * Features:
+ *  - Custom searchable dropdown for source & target languages
  *  - Translate between 100+ languages using MyMemory (free, no API key needed)
  *  - Language swap, character counter
  *  - Text-to-Speech (Web Speech API) for both source & translated text
- *  - Copy-to-clipboard with animated feedback
+ *  - Copy-to-clipboard with fallback for file:// protocol
  *  - Loading indicator & toast notifications
+ *  - Functional feature pill buttons
  */
 
 // ─── Language List ─────────────────────────────────────────────────────────────
@@ -121,9 +123,133 @@ const LANGUAGES = [
   { code: "zu",    name: "Zulu" },
 ];
 
+// ─── Custom Searchable Dropdown Class ──────────────────────────────────────────
+class CustomSelect {
+  constructor(wrapperId, languages, defaultCode) {
+    this.wrapper     = document.getElementById(wrapperId);
+    this.trigger     = this.wrapper.querySelector('.cs-trigger');
+    this.selectedEl  = this.wrapper.querySelector('.cs-selected');
+    this.panel       = this.wrapper.querySelector('.cs-panel');
+    this.searchInput = this.wrapper.querySelector('.cs-search');
+    this.list        = this.wrapper.querySelector('.cs-list');
+    this.noResults   = this.wrapper.querySelector('.cs-no-results');
+    this.languages   = languages;
+    this.value       = defaultCode;
+    this.onChange    = null; // optional callback
+
+    this._buildList();
+    this._bindEvents();
+    this.setValue(defaultCode, false); // silent init
+  }
+
+  _buildList() {
+    this.list.innerHTML = this.languages.map(lang =>
+      `<li class="cs-option" data-value="${lang.code}" role="option" tabindex="-1">${lang.name}</li>`
+    ).join('');
+  }
+
+  _bindEvents() {
+    // Toggle open/close on trigger click
+    this.trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggle();
+    });
+
+    // Filter list on search input
+    this.searchInput.addEventListener('input', () => this._filter());
+
+    // Select option on click
+    this.list.addEventListener('click', (e) => {
+      const opt = e.target.closest('.cs-option');
+      if (opt) this.setValue(opt.dataset.value, true);
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!this.wrapper.contains(e.target)) this.close();
+    });
+
+    // Keyboard: Escape closes, Arrow keys navigate
+    this.searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') this.close();
+    });
+  }
+
+  _filter() {
+    const q = this.searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+
+    this.list.querySelectorAll('.cs-option').forEach(opt => {
+      const match = opt.textContent.toLowerCase().includes(q);
+      opt.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    });
+
+    this.noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  toggle() {
+    if (this.wrapper.classList.contains('open')) {
+      this.close();
+    } else {
+      // Close all other open dropdowns first
+      document.querySelectorAll('.cs-dropdown.open').forEach(d => {
+        if (d !== this.wrapper) d.classList.remove('open');
+      });
+      this.open();
+    }
+  }
+
+  open() {
+    this.wrapper.classList.add('open');
+    this.trigger.setAttribute('aria-expanded', 'true');
+    this.searchInput.value = '';
+    this._filter();
+    // Scroll active item into view
+    const active = this.list.querySelector('.cs-option.active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+    setTimeout(() => this.searchInput.focus(), 50);
+  }
+
+  close() {
+    this.wrapper.classList.remove('open');
+    this.trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  setValue(code, fireChange = true) {
+    const lang = this.languages.find(l => l.code === code);
+    if (!lang) return;
+
+    this.value = lang.code;
+    this.selectedEl.textContent = lang.name;
+    this.wrapper.dataset.value = lang.code;
+
+    // Mark active
+    this.list.querySelectorAll('.cs-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.value === lang.code);
+    });
+
+    this.close();
+    if (fireChange && typeof this.onChange === 'function') {
+      this.onChange(lang.code, lang.name);
+    }
+  }
+
+  getValue() {
+    return this.value;
+  }
+
+  getName() {
+    return this.selectedEl.textContent;
+  }
+}
+
+// ─── Initialize Custom Dropdowns ──────────────────────────────────────────────
+// Source: includes "Detect Language", Target: excludes "Detect Language"
+const sourceDropdown = new CustomSelect('sourceDropdown', LANGUAGES,                        'auto');
+const targetDropdown = new CustomSelect('targetDropdown', LANGUAGES.filter(l => l.code !== 'auto'), 'en');
+
 // ─── DOM References ─────────────────────────────────────────────────────────────
-const sourceLangEl  = document.getElementById('sourceLang');
-const targetLangEl  = document.getElementById('targetLang');
 const swapBtn       = document.getElementById('swapBtn');
 const sourceTextEl  = document.getElementById('sourceText');
 const outputTextEl  = document.getElementById('outputText');
@@ -137,25 +263,16 @@ const sourceTtsBtn  = document.getElementById('sourceTts');
 const targetTtsBtn  = document.getElementById('targetTts');
 const statusBadge   = document.getElementById('statusBadge');
 
+// Feature pill buttons
+const pillLangs     = document.getElementById('pillLangs');
+const pillTts       = document.getElementById('pillTts');
+const pillCopy      = document.getElementById('pillCopy');
+const pillTranslate = document.getElementById('pillTranslate');
+
 // ─── State ─────────────────────────────────────────────────────────────────────
-let translatedText  = '';
-let toastTimer      = null;
-let currentUtterance = null;
-
-// ─── Init ─────────────────────────────────────────────────────────────────────
-function populateLanguageSelects() {
-  LANGUAGES.forEach(lang => {
-    const optSource = new Option(lang.name, lang.code);
-    const optTarget = new Option(lang.name, lang.code);
-    sourceLangEl.add(optSource);
-    targetLangEl.add(optTarget);
-  });
-  // Defaults: auto-detect → English
-  sourceLangEl.value = 'auto';
-  targetLangEl.value = 'en';
-}
-
-populateLanguageSelects();
+let translatedText    = '';
+let toastTimer        = null;
+let currentUtterance  = null;
 
 // ─── Character Counter ─────────────────────────────────────────────────────────
 sourceTextEl.addEventListener('input', () => {
@@ -184,23 +301,22 @@ function clearOutput() {
 
 // ─── Swap Languages ────────────────────────────────────────────────────────────
 swapBtn.addEventListener('click', () => {
-  const srcVal = sourceLangEl.value;
-  const tgtVal = targetLangEl.value;
+  const srcCode = sourceDropdown.getValue();
+  const tgtCode = targetDropdown.getValue();
 
-  // Don't swap if source is "auto-detect"
-  if (srcVal === 'auto') {
-    showToast('Cannot swap when source is "Detect Language"', 'error');
+  if (srcCode === 'auto') {
+    showToast('Cannot swap when source is "Detect Language" 🔄', 'error');
     return;
   }
 
-  sourceLangEl.value = tgtVal;
-  targetLangEl.value = srcVal;
+  // Swap selections
+  sourceDropdown.setValue(tgtCode, false);
+  targetDropdown.setValue(srcCode, false);
 
-  // Swap the text content too
-  const currentOutput = translatedText;
-  if (currentOutput) {
-    sourceTextEl.value = currentOutput;
-    charCountEl.textContent = `${currentOutput.length} / 500`;
+  // Swap text content too
+  if (translatedText) {
+    sourceTextEl.value = translatedText;
+    charCountEl.textContent = `${translatedText.length} / 500`;
     clearOutput();
   }
 });
@@ -209,9 +325,7 @@ swapBtn.addEventListener('click', () => {
 translateBtn.addEventListener('click', translate);
 
 sourceTextEl.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-    translate();
-  }
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) translate();
 });
 
 async function translate() {
@@ -222,10 +336,10 @@ async function translate() {
     return;
   }
 
-  const src = sourceLangEl.value;
-  const tgt = targetLangEl.value;
+  const src = sourceDropdown.getValue();
+  const tgt = targetDropdown.getValue();
 
-  if (src === tgt && src !== 'auto') {
+  if (src === tgt) {
     showToast('Source and target languages are the same!', 'error');
     return;
   }
@@ -261,8 +375,6 @@ async function translate() {
 function displayOutput(text) {
   outputTextEl.textContent = text;
   outputTextEl.classList.add('has-text');
-
-  // Fade-in animation
   outputTextEl.style.opacity = '0';
   outputTextEl.style.transform = 'translateY(8px)';
   requestAnimationFrame(() => {
@@ -276,22 +388,35 @@ function displayOutput(text) {
 function setLoading(isLoading) {
   translateBtn.disabled = isLoading;
   loadingBarEl.style.display = isLoading ? 'block' : 'none';
-
-  if (isLoading) {
-    translateBtn.querySelector('.btn-text').textContent = 'Translating...';
-  } else {
-    translateBtn.querySelector('.btn-text').textContent = 'Translate';
-  }
+  translateBtn.querySelector('.btn-text').textContent = isLoading ? 'Translating...' : 'Translate';
 }
 
-// ─── Copy to Clipboard ─────────────────────────────────────────────────────────
+// ─── Copy to Clipboard (with file:// fallback) ─────────────────────────────────
+async function copyToClipboard(text) {
+  // Modern API (works on HTTPS / localhost)
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  // Fallback: create a hidden textarea, select, execCommand (works on file://)
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  const ok = document.execCommand('copy');
+  document.body.removeChild(ta);
+  if (!ok) throw new Error('execCommand copy failed');
+}
+
 copyBtn.addEventListener('click', async () => {
   if (!translatedText) {
-    showToast('Nothing to copy yet!', 'error');
+    showToast('Nothing to copy yet! Translate something first.', 'error');
     return;
   }
   try {
-    await navigator.clipboard.writeText(translatedText);
+    await copyToClipboard(translatedText);
     copyBtn.classList.add('copied');
     copyBtn.innerHTML = `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -301,46 +426,44 @@ copyBtn.addEventListener('click', async () => {
     setTimeout(() => {
       copyBtn.classList.remove('copied');
       copyBtn.innerHTML = `
-        <svg id="copyIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>`;
-    }, 2000);
+    }, 2200);
   } catch {
-    showToast('Copy failed. Please copy manually.', 'error');
+    showToast('Copy failed. Please select the text manually.', 'error');
   }
 });
 
 // ─── Text-to-Speech ────────────────────────────────────────────────────────────
 function speak(text, langCode, btn) {
   if (!('speechSynthesis' in window)) {
-    showToast('Text-to-Speech is not supported in your browser.', 'error');
+    showToast('Text-to-Speech is not supported in your browser. Try Chrome.', 'error');
     return;
   }
 
-  // If already speaking, stop it
-  if (currentUtterance && window.speechSynthesis.speaking) {
+  // Cancel any ongoing speech
+  if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
     window.speechSynthesis.cancel();
-    document.querySelectorAll('.tts-btn').forEach(b => b.classList.remove('speaking'));
-    if (btn.dataset.speaking === 'true') {
-      btn.dataset.speaking = 'false';
-      return;
-    }
+    document.querySelectorAll('.tts-btn').forEach(b => {
+      b.classList.remove('speaking');
+      b.dataset.speaking = 'false';
+    });
+    // If pressing the same button, just stop
+    if (btn.dataset.speaking === 'true') return;
   }
 
-  if (!text || text.trim() === '') {
+  if (!text || !text.trim()) {
     showToast('No text to speak!', 'error');
     return;
   }
 
   const utterance = new SpeechSynthesisUtterance(text);
-
-  // Try to match language (skip auto-detect)
   if (langCode && langCode !== 'auto') {
     utterance.lang = langCode.replace('_', '-');
   }
-
-  utterance.rate = 0.9;
+  utterance.rate  = 0.9;
   utterance.pitch = 1.0;
 
   currentUtterance = utterance;
@@ -353,31 +476,66 @@ function speak(text, langCode, btn) {
     currentUtterance = null;
   };
 
-  utterance.onerror = () => {
+  utterance.onerror = (e) => {
+    console.error('SpeechSynthesis error:', e);
     btn.classList.remove('speaking');
     btn.dataset.speaking = 'false';
     currentUtterance = null;
-    showToast('Speech synthesis encountered an error.', 'error');
+    // "interrupted" fires when we manually cancel, don't show error for that
+    if (e.error !== 'interrupted') {
+      showToast('Speech synthesis error. Try a different browser.', 'error');
+    }
   };
 
+  // Chrome bug workaround: pause/resume to ensure speech starts
   window.speechSynthesis.speak(utterance);
+  if (window.speechSynthesis.paused) {
+    window.speechSynthesis.resume();
+  }
 }
 
 sourceTtsBtn.addEventListener('click', () => {
-  speak(sourceTextEl.value.trim(), sourceLangEl.value, sourceTtsBtn);
+  speak(sourceTextEl.value.trim(), sourceDropdown.getValue(), sourceTtsBtn);
 });
 
 targetTtsBtn.addEventListener('click', () => {
-  speak(translatedText, targetLangEl.value, targetTtsBtn);
+  if (!translatedText) {
+    showToast('Translate something first before listening! 🔊', 'error');
+    return;
+  }
+  speak(translatedText, targetDropdown.getValue(), targetTtsBtn);
+});
+
+// ─── Feature Pill Buttons (Functional) ────────────────────────────────────────
+pillLangs.addEventListener('click', () => {
+  // Open the source language dropdown to show all languages
+  sourceDropdown.open();
+  showToast('🚀 ' + LANGUAGES.length + ' languages supported! Search below.', 'success');
+});
+
+pillTts.addEventListener('click', () => {
+  if (translatedText) {
+    speak(translatedText, targetDropdown.getValue(), targetTtsBtn);
+  } else if (sourceTextEl.value.trim()) {
+    speak(sourceTextEl.value.trim(), sourceDropdown.getValue(), sourceTtsBtn);
+  } else {
+    showToast('Enter or translate some text first to use Text-to-Speech 🔊', 'error');
+  }
+});
+
+pillCopy.addEventListener('click', () => {
+  copyBtn.click(); // reuse copy logic
+});
+
+pillTranslate.addEventListener('click', () => {
+  translate();
 });
 
 // ─── Toast Notifications ───────────────────────────────────────────────────────
 function showToast(message, type = 'info') {
   clearTimeout(toastTimer);
-
   toastEl.textContent = message;
   toastEl.className = `toast ${type} show`;
-
   toastTimer = setTimeout(() => {
     toastEl.classList.remove('show');
   }, 3200);
