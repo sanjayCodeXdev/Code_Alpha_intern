@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinguaFlow – AI Language Translation Tool</title>
+  <meta name="description" content="LinguaFlow: A powerful, beautiful AI-powered language translation tool. Translate text between 100+ languages instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon">🌐</span>
+      <span class="logo-text">LinguaFlow</span>
+    </div>
+    <p class="header-tagline">Translate anything, instantly.</p>
+  </header>
+
+  <!-- Main App -->
+  <main class="app-container">
+
+    <!-- Language Selector Bar -->
+    <div class="lang-bar glass-card">
+      <div class="lang-select-wrap">
+        <label for="sourceLang">From</label>
+        <select id="sourceLang" class="lang-select"></select>
+      </div>
+
+      <button class="swap-btn" id="swapBtn" title="Swap Languages" aria-label="Swap Languages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 16V4m0 0L3 8m4-4l4 4"/>
+          <path d="M17 8v12m0 0l4-4m-4 4l-4-4"/>
+        </svg>
+      </button>
+
+      <div class="lang-select-wrap">
+        <label for="targetLang">To</label>
+        <select id="targetLang" class="lang-select"></select>
+      </div>
+    </div>
+
+    <!-- Translation Area -->
+    <div class="translation-grid">
+
+      <!-- Source Panel -->
+      <div class="panel glass-card" id="sourcePanel">
+        <div class="panel-header">
+          <span class="panel-label">Source Text</span>
+          <div class="panel-actions">
+            <span class="char-count" id="charCount">0 / 500</span>
+            <button class="icon-btn" id="clearBtn" title="Clear Text" aria-label="Clear text">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <textarea
+          id="sourceText"
+          class="text-area"
+          placeholder="Enter text to translate..."
+          maxlength="500"
+          aria-label="Source text input"
+        ></textarea>
+        <div class="panel-footer">
+          <button class="icon-btn tts-btn" id="sourceTts" title="Listen (Source)" aria-label="Listen to source text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+          <button class="translate-btn" id="translateBtn">
+            <span class="btn-text">Translate</span>
+            <span class="btn-icon">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Target Panel -->
+      <div class="panel glass-card" id="targetPanel">
+        <div class="panel-header">
+          <span class="panel-label">Translation</span>
+          <div class="panel-actions">
+            <button class="icon-btn copy-btn" id="copyBtn" title="Copy Translation" aria-label="Copy translated text">
+              <svg id="copyIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="text-area output-area" id="outputText" aria-label="Translated text output" aria-live="polite">
+          <span class="placeholder-text">Your translation will appear here...</span>
+        </div>
+        <div class="panel-footer">
+          <button class="icon-btn tts-btn" id="targetTts" title="Listen (Translation)" aria-label="Listen to translated text">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+          <div class="status-badge" id="statusBadge" style="display:none;">
+            <span class="status-dot"></span>
+            <span id="statusText">Powered by MyMemory API</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-bar-wrap" id="loadingBar" style="display:none;" aria-hidden="true">
+      <div class="loading-bar-inner"></div>
+    </div>
+
+    <!-- Error Toast -->
+    <div class="toast" id="toast" role="alert" aria-live="assertive"></div>
+
+    <!-- Feature Pills -->
+    <div class="feature-pills">
+      <span class="pill">🚀 100+ Languages</span>
+      <span class="pill">🔊 Text-to-Speech</span>
+      <span class="pill">📋 One-Click Copy</span>
+      <span class="pill">⚡ Instant Translation</span>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Built with ❤️ for <strong>CodeAlpha AI Internship</strong> · Task 1: Language Translation Tool</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
