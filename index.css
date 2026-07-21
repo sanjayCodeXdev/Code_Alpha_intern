@@ -126,6 +126,15 @@ body {
   border-color: rgba(108, 99, 255, 0.2);
 }
 
+/* Lang-bar override: backdrop-filter creates a stacking context that
+   traps child z-indexes and clips the dropdown panel.
+   Use a solid background instead so the dropdown can float above. */
+.lang-bar.glass-card {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: rgba(13, 15, 26, 0.95);
+}
+
 /* ---------- Header ---------- */
 .header {
   position: relative;
@@ -190,11 +199,15 @@ body {
   justify-content: center;
   gap: 20px;
   padding: 20px 28px;
+  overflow: visible; /* allow dropdowns to overflow the card */
+  position: relative;
+  z-index: 50;
 }
 
 .lang-select-wrap {
   display: flex;
   flex-direction: column;
+  overflow: visible; /* must not clip child dropdown panel */
   gap: 6px;
   flex: 1;
   max-width: 380px;
@@ -265,7 +278,7 @@ body {
   top: calc(100% + 8px);
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 9999; /* above translation panels, toast, everything */
   background: #13142a;
   border: 1px solid rgba(108, 99, 255, 0.3);
   border-radius: var(--radius-md);
