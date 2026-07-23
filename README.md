@@ -1,99 +1,60 @@
-# LinguaFlow – Language Translation Tool
+# CodeAlpha AI Internship Projects
 
-> **CodeAlpha AI Internship · Task 1: Language Translation Tool**
-
-A beautiful, modern, and fully functional **Language Translation Web Application** built with pure HTML, CSS, and JavaScript — no frameworks, no build tools required.
-
----
-
-## 🌟 Features
-
-- **100+ Languages** — Powered by the [MyMemory Translation API](https://mymemory.translated.net/) (free, no API key needed)
-- **Auto Language Detection** — Let the API detect your source language automatically
-- **Language Swap** — Instantly swap source and target languages (and text)
-- **Text-to-Speech (TTS)** — Listen to both source and translated text using the Web Speech API
-- **Copy to Clipboard** — One-click copy of the translated text with animated feedback
-- **Character Counter** — Live counter with warning at 450+ characters (max: 500)
-- **Keyboard Shortcut** — Press `Ctrl + Enter` (or `Cmd + Enter`) to translate instantly
-- **Responsive Design** — Works flawlessly on desktop, tablet, and mobile
-- **Premium Dark UI** — Glassmorphism, animated orbs, smooth transitions, and micro-animations
+> **Intern:** Sanjay Kumar
+> **Program:** CodeAlpha Artificial Intelligence Internship
+> **GitHub:** [sanjayCodeXdev](https://github.com/sanjayCodeXdev)
 
 ---
 
-## 🚀 Getting Started
+## 📁 Repository Structure
 
-### Option 1: Open Directly in Browser
-Just open `index.html` in any modern browser — no server needed for basic functionality!
-
-> **Note:** For the Copy to Clipboard feature to work, you may need to serve the file via a local HTTP server (due to browser security policies on `file://` protocol).
-
-### Option 2: Run with a Local Server (Recommended)
-If you have Python installed:
-```bash
-# Python 3
-python -m http.server 8080
 ```
-Then open `http://localhost:8080` in your browser.
-
-Or with Node.js:
-```bash
-npx serve .
+CodeAlpha_language_translator/
+├── Task1_Language_Translator/   ✅ Completed
+│   ├── index.html
+│   ├── index.css
+│   ├── app.js
+│   └── README.md
+│
+├── Task2_Chatbot_FAQ/           🚧 In Progress
+│   └── README.md
+│
+└── README.md                    ← You are here
 ```
 
 ---
 
-## 📁 Project Structure
+## 🚀 Tasks
 
-```
-CodeAlpha_ProjectName/
-├── index.html     # App structure & UI layout
-├── index.css      # Styling (dark mode, glassmorphism, animations)
-├── app.js         # Logic (API calls, TTS, copy, swap, etc.)
-└── README.md      # Project documentation
-```
+### ✅ Task 1 — Language Translation Tool
+> **Status:** Complete & Deployed
 
----
+A beautiful, premium dark-themed language translation web app featuring:
+- 100+ languages via MyMemory API
+- Custom searchable language dropdowns
+- Text-to-Speech for source & translated text
+- Copy to clipboard, language swap, character counter
+- Responsive design with glassmorphism UI
 
-## 🌐 Translation API
-
-This project uses the **MyMemory API** — a free, public translation API with no authentication required.
-
-| Property | Details |
-|---|---|
-| API | [MyMemory Translated](https://mymemory.translated.net/) |
-| Endpoint | `https://api.mymemory.translated.net/get` |
-| Auth | None (free tier: 1000 words/day per IP) |
-| Languages | 100+ supported |
+📂 **Folder:** [`Task1_Language_Translator/`](./Task1_Language_Translator/)
+🌐 **Live Demo:** [sanjayCodeXdev.github.io/CodeAlpha_language_translator/Task1_Language_Translator/](https://sanjayCodeXdev.github.io/CodeAlpha_language_translator/Task1_Language_Translator/)
 
 ---
 
-## 🖥️ Screenshot
+### 🚧 Task 2 — Chatbot for FAQs
+> **Status:** In Progress
 
-A dark-themed, premium translation UI featuring:
-- Glowing gradient header
-- Animated floating orbs in the background
-- Glassmorphism panels for input and output
-- A pulsing "Translate" button with a gradient
+An NLP-powered FAQ chatbot using cosine similarity to match user questions with the most relevant answer from a curated FAQ dataset.
 
----
-
-## 🛠️ Technologies Used
-
-| Technology | Purpose |
-|---|---|
-| HTML5 | Semantic page structure |
-| CSS3 | Dark glassmorphism design, animations, responsive layout |
-| Vanilla JavaScript | DOM manipulation, API calls, Web Speech API |
-| MyMemory API | Translation backend |
-| Web Speech API | Text-to-Speech (built into modern browsers) |
-| Google Fonts (Inter + Outfit) | Premium typography |
+📂 **Folder:** [`Task2_Chatbot_FAQ/`](./Task2_Chatbot_FAQ/)
 
 ---
 
-## 📝 License
+## 📞 CodeAlpha Contact
 
-This project was created as part of the **CodeAlpha Artificial Intelligence Internship** program.
+- **Website:** [www.codealpha.tech](https://www.codealpha.tech)
+- **Email:** services@codealpha.tech
 
 ---
 
-*Built with ❤️ for CodeAlpha AI Internship*
+*Built with ❤️ for the CodeAlpha AI Internship Program*
