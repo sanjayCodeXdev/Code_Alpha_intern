@@ -23,8 +23,8 @@ const knowledgeBase = [
     patterns: [/what can you (do|help|answer)|your (capabilities|features|skills)|how (do you work|are you helpful)/i],
     responses: [
       {
-        text: "I'm NexBot and I can help you with:\n\n🔹 **CodeAlpha** internship FAQs\n🔹 **Programming** tips and concepts\n🔹 **AI & Technology** explanations\n🔹 **Career advice** for developers\n🔹 **Fun facts** and trivia\n\nJust type your question naturally and I'll do my best!",
-        suggestions: ["Tell me about CodeAlpha", "What is AI?", "Programming tips"]
+        text: "I'm NexBot and I can help you with:\n\n🔹 **CodeAlpha** internship FAQs\n🔹 **Programming** tips (Python, JS, SQL, React)\n🔹 **AI & Technology** explanations\n🔹 **Career & Interview** advice\n🔹 **GitHub & Open Source** guidance\n🔹 **Freelancing** tips\n🔹 **Fun facts & Jokes**\n\nJust type your question naturally!",
+        suggestions: ["Tell me about CodeAlpha", "What is AI?", "Interview tips"]
       }
     ]
   },
@@ -205,6 +205,116 @@ const knowledgeBase = [
     ]
   },
 
+  // ── SQL / Databases ──
+  {
+    patterns: [/what is sql|sql (basics|tutorial|tips)|database (basics|tutorial)|mysql|postgresql|mongodb/i],
+    responses: [
+      {
+        text: "**SQL & Databases** 🗄️\n\n**SQL** (Structured Query Language) is used to manage relational databases.\n\nEssential commands:\n```\nSELECT * FROM users;\nINSERT INTO users VALUES (...);\nUPDATE users SET name='...' WHERE id=1;\nDELETE FROM users WHERE id=1;\n```\n\nPopular databases:\n• **MySQL** — Most popular, great for web apps\n• **PostgreSQL** — Advanced features, open source\n• **MongoDB** — NoSQL, stores JSON documents",
+        suggestions: ["What is NoSQL?", "Web dev roadmap", "Python tips"]
+      }
+    ]
+  },
+
+  // ── React ──
+  {
+    patterns: [/what is react|learn react|react (tips|tutorial|basics)|react vs vue|why react/i],
+    responses: [
+      {
+        text: "**React** is a JavaScript library for building user interfaces! ⚛️\n\nKey concepts:\n• **Components** — Reusable UI building blocks\n• **JSX** — HTML-like syntax in JavaScript\n• **State & Props** — Manage data flow\n• **Hooks** — useState, useEffect, etc.\n\n💯 Used by: Facebook, Netflix, Airbnb, Uber\n\nStart at: **react.dev** (official docs)",
+        suggestions: ["JavaScript tips", "Web dev roadmap", "Next.js?"]
+      }
+    ]
+  },
+
+  // ── Interview Tips ──
+  {
+    patterns: [/interview (tips|prep|preparation|questions)|how to (prepare|ace|crack) (interview|coding)|job interview/i],
+    responses: [
+      {
+        text: "**Tech Interview Tips** 💼\n\n**Before the Interview:**\n• Review Data Structures & Algorithms\n• Practice on LeetCode / HackerRank\n• Study the company & role\n• Prepare projects to discuss\n\n**During the Interview:**\n• Think out loud — explain your reasoning\n• Clarify requirements before coding\n• Start with a brute-force, then optimize\n• Test your solution with edge cases\n\n**Soft Skills:** Confidence, communication & curiosity matter a lot!",
+        suggestions: ["Data structures?", "LeetCode tips", "Career advice"]
+      }
+    ]
+  },
+
+  // ── Open Source ──
+  {
+    patterns: [/open source|contribute (to|on) github|first (pr|pull request)|how to contribute/i],
+    responses: [
+      {
+        text: "**Contributing to Open Source** 🌐\n\nHow to get started:\n1. Find a project you use & love\n2. Read the `CONTRIBUTING.md` file\n3. Look for **'good first issue'** labels\n4. Fork → Clone → Make changes\n5. Open a **Pull Request** with clear description\n\nGreat platforms to find projects:\n• **GitHub Explore**\n• **goodfirstissue.dev**\n• **up-for-grabs.net**\n\nEven fixing typos in docs counts! 📝",
+        suggestions: ["GitHub tips", "How to use Git?", "Career advice"]
+      }
+    ]
+  },
+
+  // ── Freelancing ──
+  {
+    patterns: [/freelanc(e|ing)|upwork|fiverr|how to (get|find) clients|freelance (developer|programmer)/i],
+    responses: [
+      {
+        text: "**Freelancing as a Developer** 💰\n\nPlatforms to start:\n• **Upwork** — Best for long-term projects\n• **Fiverr** — Great for quick gigs\n• **Toptal** — Premium clients (competitive)\n• **LinkedIn** — Network & direct outreach\n\nTips to succeed:\n✔ Build a strong portfolio first\n✔ Start with lower rates to get reviews\n✔ Specialize in 1–2 skills\n✔ Communicate clearly & meet deadlines\n✔ Ask clients for testimonials!",
+        suggestions: ["Build a portfolio", "Career advice", "Web dev roadmap"]
+      }
+    ]
+  },
+
+  // ── Cybersecurity ──
+  {
+    patterns: [/cybersecurity|cyber security|hacking|ethical hack(ing)?|what is (security|infosec)/i],
+    responses: [
+      {
+        text: "**Cybersecurity** 🔒\n\nCybersecurity protects systems, networks, and data from digital attacks.\n\nKey areas:\n• **Network Security** — Firewalls, VPNs\n• **Web Security** — OWASP Top 10\n• **Ethical Hacking** — Pen testing\n• **Cryptography** — Encryption & hashing\n• **Incident Response** — Handling breaches\n\nLearning resources:\n🔗 TryHackMe, HackTheBox, OWASP.org",
+        suggestions: ["Career in tech", "What is networking?", "Python tips"]
+      }
+    ]
+  },
+
+  // ── Cloud Computing ──
+  {
+    patterns: [/cloud (computing|services|platforms?)|what is (aws|azure|gcp)|amazon web services|google cloud/i],
+    responses: [
+      {
+        text: "**Cloud Computing** ☁️\n\nCloud lets you rent computing resources over the internet instead of owning hardware.\n\nTop providers:\n• **AWS** (Amazon) — Most widely used, 200+ services\n• **Azure** (Microsoft) — Great for enterprise\n• **GCP** (Google) — Best for ML/AI workloads\n\nKey services:\n• Compute (EC2, VMs)\n• Storage (S3, Blob)\n• Databases (RDS, CosmosDB)\n• Functions (Lambda, Cloud Functions)\n\nGet **AWS Free Tier** to start practicing!",
+        suggestions: ["DevOps career", "Career in tech", "GitHub tips"]
+      }
+    ]
+  },
+
+  // ── Data Structures & Algorithms ──
+  {
+    patterns: [/data structure|algorithm(s)?|dsa|big.?o|leetcode|time complexity/i],
+    responses: [
+      {
+        text: "**Data Structures & Algorithms (DSA)** 🧠\n\nEssential data structures:\n• **Array** — O(1) access\n• **Linked List** — O(1) insert/delete at head\n• **Stack/Queue** — LIFO / FIFO\n• **HashMap** — O(1) average lookup\n• **Tree/Graph** — Hierarchical/network data\n\nMust-know algorithms:\n• Binary Search, BFS/DFS\n• Sorting (QuickSort, MergeSort)\n• Dynamic Programming\n\n📚 Practice: LeetCode → Easy first, then Medium!",
+        suggestions: ["Interview tips", "Python for DSA", "JavaScript tips"]
+      }
+    ]
+  },
+
+  // ── VS Code Tips ──
+  {
+    patterns: [/vs ?code|visual studio code|code editor|best (editor|ide)|vscode (tips|shortcuts)/i],
+    responses: [
+      {
+        text: "**VS Code Tips** 💻\n\nMust-have extensions:\n• **Prettier** — Auto-format code\n• **ESLint** — Catch JS errors\n• **GitLens** — Git superpowers\n• **Live Server** — Auto-reload browser\n• **GitHub Copilot** — AI code assistant\n\nHandy shortcuts:\n• `Ctrl+P` — Quick file open\n• `Ctrl+Shift+P` — Command palette\n• `Alt+Click` — Multi-cursor\n• `Ctrl+/` — Toggle comment\n• `F5` — Run debugger",
+        suggestions: ["Debugging tips", "GitHub tips", "JavaScript tips"]
+      }
+    ]
+  },
+
+  // ── Debugging ──
+  {
+    patterns: [/debug(ging)?|fix (bug|error|code)|how to debug|troubleshoot/i],
+    responses: [
+      {
+        text: "**Debugging Tips** 🐛\n\nA systematic approach:\n1. **Read the error message** carefully\n2. **Reproduce** the bug consistently\n3. **Isolate** the problem area\n4. **Use console.log / print** to trace values\n5. **Use the debugger** with breakpoints\n6. **Google the exact error** message\n7. Check **Stack Overflow** for similar issues\n8. **Rubber duck debug** — explain to someone/something\n\n💡 Most bugs are typos, wrong types, or off-by-one errors!",
+        suggestions: ["VS Code tips", "JavaScript tips", "Python tips"]
+      }
+    ]
+  },
+
   // ── Statements / non-questions redirector ──
   {
     patterns: [/^(i (am|like|love|hate|want|need|think|know|have|feel)|my name is|im |i'm )/i],
@@ -339,7 +449,11 @@ class ChatUI {
     this.themeToggle = document.getElementById('themeToggle');
     this.moonIcon = document.getElementById('moonIcon');
     this.sunIcon = document.getElementById('sunIcon');
+    this.micBtn = document.getElementById('micBtn');
+    this.scrollBtn = document.getElementById('scrollBottomBtn');
     this.isDark = true;
+    this.msgCount = 0;
+    this.recognition = null;
 
     this.init();
   }
@@ -348,6 +462,7 @@ class ChatUI {
     this.renderWelcome();
     this.bindEvents();
     this.loadTheme();
+    this.initVoice();
 
     // Caution banner dismiss
     const cautionClose = document.getElementById('cautionClose');
@@ -356,6 +471,69 @@ class ChatUI {
         document.querySelector('.caution-banner').classList.add('hidden');
       });
     }
+
+    // Scroll-to-bottom button
+    if (this.scrollBtn) {
+      this.scrollBtn.addEventListener('click', () => this.scrollToBottom(true));
+      this.chatWindow.addEventListener('scroll', () => this.handleScrollBtn());
+    }
+  }
+
+  /** Initialize Web Speech API voice input */
+  initVoice() {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR || !this.micBtn) {
+      if (this.micBtn) this.micBtn.style.display = 'none';
+      return;
+    }
+    this.recognition = new SR();
+    this.recognition.lang = 'en-US';
+    this.recognition.continuous = false;
+    this.recognition.interimResults = false;
+
+    this.recognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      this.userInput.value = transcript;
+      this.updateCharCount();
+      this.autoResize();
+      this.micBtn.classList.remove('listening');
+      this.micBtn.title = 'Voice input';
+    };
+    this.recognition.onerror = () => {
+      this.micBtn.classList.remove('listening');
+      this.micBtn.title = 'Voice input';
+    };
+    this.recognition.onend = () => {
+      this.micBtn.classList.remove('listening');
+      this.micBtn.title = 'Voice input';
+    };
+
+    this.micBtn.addEventListener('click', () => {
+      if (this.micBtn.classList.contains('listening')) {
+        this.recognition.stop();
+      } else {
+        this.recognition.start();
+        this.micBtn.classList.add('listening');
+        this.micBtn.title = 'Listening... click to stop';
+      }
+    });
+  }
+
+  /** Show/hide scroll-to-bottom button */
+  handleScrollBtn() {
+    if (!this.scrollBtn) return;
+    const { scrollTop, scrollHeight, clientHeight } = this.chatWindow;
+    const nearBottom = scrollHeight - scrollTop - clientHeight < 80;
+    this.scrollBtn.classList.toggle('visible', !nearBottom);
+  }
+
+  /** Time-based greeting */
+  getGreeting() {
+    const h = new Date().getHours();
+    if (h < 12) return 'Good Morning';
+    if (h < 17) return 'Good Afternoon';
+    if (h < 21) return 'Good Evening';
+    return 'Good Night';
   }
 
   bindEvents() {
@@ -389,6 +567,9 @@ class ChatUI {
         this.sendMessage(query);
       });
     });
+
+    // Focus input on load
+    this.userInput.focus();
   }
 
   updateCharCount() {
@@ -446,6 +627,7 @@ class ChatUI {
     const isBot = role === 'bot';
     const el = document.createElement('div');
     el.className = `message ${role}`;
+    this.msgCount++;
 
     const avatar = isBot ? '🤖' : '👤';
     const label = isBot ? 'NexBot' : 'You';
@@ -459,20 +641,71 @@ class ChatUI {
       </div>`;
     }
 
+    // Action bar for bot messages (copy + feedback)
+    let actionsHTML = '';
+    if (isBot) {
+      const msgId = `msg-${this.msgCount}`;
+      actionsHTML = `
+        <div class="msg-action-bar" id="${msgId}-actions">
+          <button class="action-btn copy-msg-btn" title="Copy response" aria-label="Copy response" data-msgid="${msgId}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            <span class="action-label">Copy</span>
+          </button>
+          <button class="action-btn feedback-btn up-btn" title="Helpful" aria-label="Mark as helpful">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>
+          </button>
+          <button class="action-btn feedback-btn down-btn" title="Not helpful" aria-label="Mark as not helpful">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>
+          </button>
+        </div>`;
+    }
+
     el.innerHTML = `
       <div class="msg-avatar" aria-hidden="true">${avatar}</div>
       <div class="msg-content">
         <span class="msg-label">${label}</span>
-        <div class="msg-bubble">${formattedText}${suggestionsHTML}</div>
+        <div class="msg-bubble" id="msg-${this.msgCount}-bubble">${formattedText}${suggestionsHTML}</div>
+        ${actionsHTML}
         <span class="msg-time">${time}</span>
       </div>
     `;
 
-    // Bind suggestion button events
+    // Bind suggestion buttons
     el.querySelectorAll('.suggestion-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const query = btn.getAttribute('data-query');
         this.sendMessage(query);
+      });
+    });
+
+    // Bind copy button
+    const copyBtn = el.querySelector('.copy-msg-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', () => {
+        const msgId = copyBtn.getAttribute('data-msgid');
+        const bubble = document.getElementById(`${msgId}-bubble`);
+        const plain = bubble ? bubble.innerText : text;
+        navigator.clipboard.writeText(plain).then(() => {
+          const label = copyBtn.querySelector('.action-label');
+          if (label) { label.textContent = 'Copied!'; setTimeout(() => label.textContent = 'Copy', 1500); }
+        }).catch(() => {
+          // fallback
+          const ta = document.createElement('textarea');
+          ta.value = bubble ? bubble.innerText : text;
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta);
+          const label = copyBtn.querySelector('.action-label');
+          if (label) { label.textContent = 'Copied!'; setTimeout(() => label.textContent = 'Copy', 1500); }
+        });
+      });
+    }
+
+    // Bind feedback buttons
+    el.querySelectorAll('.feedback-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.querySelectorAll('.feedback-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        btn.title = btn.classList.contains('up-btn') ? 'Thanks for the feedback! 😊' : 'Sorry! I\'ll try to improve 😔';
       });
     });
 
@@ -496,22 +729,26 @@ class ChatUI {
     return el;
   }
 
-  scrollToBottom() {
+  scrollToBottom(smooth = false) {
     requestAnimationFrame(() => {
-      this.chatWindow.scrollTop = this.chatWindow.scrollHeight;
+      this.chatWindow.scrollTo({ top: this.chatWindow.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
+      if (this.scrollBtn) this.scrollBtn.classList.remove('visible');
     });
   }
 
   renderWelcome() {
+    const greeting = this.getGreeting();
     const el = document.createElement('div');
     el.className = 'welcome-screen';
     el.innerHTML = `
       <div class="welcome-icon">🤖</div>
-      <h2>Welcome to NexBot!</h2>
-      <p>Your intelligent FAQ assistant. Ask me about CodeAlpha, programming, AI, career tips, or anything else!</p>
+      <div class="welcome-greeting">${greeting}!</div>
+      <h2>Welcome to NexBot</h2>
+      <p>Your intelligent FAQ assistant. Ask me about CodeAlpha, programming, AI, career tips, and much more!</p>
       <div class="welcome-chips">
         <button class="topic-chip" data-query="What can you do?">What can you do?</button>
-        <button class="topic-chip" data-query="Tell me about CodeAlpha">About CodeAlpha</button>
+        <button class="topic-chip" data-query="What is CodeAlpha?">About CodeAlpha</button>
+        <button class="topic-chip" data-query="What are the internship tasks?">Internship Tasks</button>
         <button class="topic-chip" data-query="Tell me a fun fact">Fun Fact 🎲</button>
       </div>
     `;

@@ -124,6 +124,14 @@
         ></textarea>
         <div class="input-actions">
           <span class="char-count" id="charCount" aria-live="polite">0/500</span>
+          <button id="micBtn" class="mic-btn" aria-label="Voice input" title="Voice input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"></path>
+              <path d="M19 10v2a7 7 0 01-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </button>
           <button id="sendBtn" class="send-btn" aria-label="Send message" title="Send message">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <line x1="22" y1="2" x2="11" y2="13"></line>
@@ -134,6 +142,13 @@
       </div>
       <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> for new line</p>
     </footer>
+
+    <!-- Scroll to Bottom Button -->
+    <button id="scrollBottomBtn" class="scroll-bottom-btn" aria-label="Scroll to bottom" title="Scroll to bottom">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
   </div>
 
   <script src="chatbot.js"></script>
