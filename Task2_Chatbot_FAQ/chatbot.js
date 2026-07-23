@@ -205,6 +205,14 @@ const knowledgeBase = [
     ]
   },
 
+  // ── Statements / non-questions redirector ──
+  {
+    patterns: [/^(i (am|like|love|hate|want|need|think|know|have|feel)|my name is|im |i'm )/i],
+    responses: [
+      { text: "⚠️ **Heads up!** I'm a FAQ bot — I can only answer questions, not process statements.\n\nTry asking something like:\n• *What is CodeAlpha?*\n• *How do I submit my work?*\n• *What is AI?*", suggestions: ["What is CodeAlpha?", "What can you do?", "Tell me a fun fact"] },
+    ]
+  },
+
   // ── Thank you ──
   {
     patterns: [/thank(s| you)|thx|ty\b|appreciate|helpful/i],
@@ -258,9 +266,9 @@ const knowledgeBase = [
 
 // ── Default / Fallback responses ──
 const fallbackResponses = [
-  { text: "🤔 Hmm, I'm not quite sure about that one. Could you try rephrasing? Or pick a topic from the quick chips above!", suggestions: ["About CodeAlpha", "Programming tips", "Fun fact"] },
-  { text: "That's an interesting question! 🧐 I don't have that answer yet, but try asking about CodeAlpha, AI, programming, or career tips!", suggestions: ["What can you do?", "Tell me about AI", "Career advice"] },
-  { text: "I didn't quite catch that. 🤖 My knowledge covers CodeAlpha FAQs, programming, AI, and more. Try one of the suggested topics!", suggestions: ["CodeAlpha tasks", "JavaScript tips", "Fun fact"] },
+  { text: "⚠️ I'm not sure how to answer that. I'm an **FAQ bot** — please ask me a specific question!\n\nTry:\n• *What is CodeAlpha?*\n• *How to learn Python?*\n• *What is AI?*", suggestions: ["About CodeAlpha", "Programming tips", "Fun fact"] },
+  { text: "⚠️ That's outside my knowledge base. As an **FAQ chatbot**, I respond to questions only.\n\nAsk me about CodeAlpha, AI, programming, or career tips!", suggestions: ["What can you do?", "Tell me about AI", "Career advice"] },
+  { text: "⚠️ I didn't quite understand that. Try rephrasing as a **question** — I work best with questions!", suggestions: ["CodeAlpha tasks", "JavaScript tips", "Fun fact"] },
 ];
 
 // ══════════════════════════════════════════
@@ -340,6 +348,14 @@ class ChatUI {
     this.renderWelcome();
     this.bindEvents();
     this.loadTheme();
+
+    // Caution banner dismiss
+    const cautionClose = document.getElementById('cautionClose');
+    if (cautionClose) {
+      cautionClose.addEventListener('click', () => {
+        document.querySelector('.caution-banner').classList.add('hidden');
+      });
+    }
   }
 
   bindEvents() {

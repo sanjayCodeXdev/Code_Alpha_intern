@@ -302,6 +302,68 @@ body {
 
 .topic-chip:active { transform: translateY(0); }
 
+/* ── Caution Banner ── */
+.caution-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(245, 158, 11, 0.08);
+  border-top: 1px solid rgba(245, 158, 11, 0.15);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.15);
+  animation: slideIn 0.4s ease;
+  transition: var(--transition);
+}
+
+.caution-banner.hidden {
+  display: none;
+}
+
+.caution-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.caution-text {
+  flex: 1;
+  font-size: 0.72rem;
+  color: #d97706;
+  line-height: 1.5;
+}
+
+[data-theme="light"] .caution-text {
+  color: #b45309;
+}
+
+.caution-text strong {
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+[data-theme="light"] .caution-text strong {
+  color: #d97706;
+}
+
+.caution-close {
+  background: none;
+  border: none;
+  color: #d97706;
+  cursor: pointer;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: var(--transition);
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.caution-close:hover {
+  opacity: 1;
+  background: rgba(245, 158, 11, 0.15);
+}
+
 /* ── Chat Window ── */
 .chat-window {
   flex: 1;
