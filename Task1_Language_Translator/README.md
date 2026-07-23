@@ -2,6 +2,10 @@
 
 > **CodeAlpha AI Internship · Task 1: Language Translation Tool**
 
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20Now-7c3aed?style=for-the-badge)](https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task1_Language_Translator/)
+
+🔗 **Live Demo:** [https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task1_Language_Translator/](https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task1_Language_Translator/)
+
 A beautiful, modern, and fully functional **Language Translation Web Application** built with pure HTML, CSS, and JavaScript — no frameworks, no build tools required.
 
 ---

@@ -2,6 +2,10 @@
 
 > **CodeAlpha Internship — Task 2**
 
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Visit%20Now-7c3aed?style=for-the-badge)](https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task2_Chatbot_FAQ/)
+
+🔗 **Live Demo:** [https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task2_Chatbot_FAQ/](https://sanjayCodeXdev.github.io/Code_Alpha_intern/Task2_Chatbot_FAQ/)
+
 A sleek, intelligent FAQ chatbot built with pure HTML, CSS, and JavaScript. No external APIs or backend required — runs entirely in the browser!
 
 ## ✨ Features
@@ -43,10 +47,10 @@ Simply open `index.html` in any modern browser — no setup needed!
 
 ```bash
 # Clone the repo
-git clone https://github.com/sanjayCodeXdev/CodeAlpha_language_translator.git
+git clone https://github.com/sanjayCodeXdev/Code_Alpha_intern.git
 
 # Navigate to Task 2
-cd Task2_Chatbot_FAQ
+cd Code_Alpha_intern/Task2_Chatbot_FAQ
 
 # Open in browser
 start index.html    # Windows
